@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Vs-fabianu-webservices</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="task1">Task 1</string>
+    <string name="task2">Task 2</string>
+    <string name="task3">Task 3</string>
+    <string name="title_activity_rest">RestActivity</string>
+
+</resources>
