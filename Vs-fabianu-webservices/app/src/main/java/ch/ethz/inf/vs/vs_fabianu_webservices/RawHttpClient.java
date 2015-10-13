@@ -1,11 +1,8 @@
 package ch.ethz.inf.vs.vs_fabianu_webservices;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -19,7 +16,7 @@ import skeleton.SimpleHttpClient;
  */
 public class RawHttpClient implements SimpleHttpClient {
 
-    MyHttpRawRequest httpRequest;
+    HttpRawRequestImpl httpRequest;
 
     public RawHttpClient(){
 
@@ -28,16 +25,16 @@ public class RawHttpClient implements SimpleHttpClient {
     public String execute(Object request){
         //take in an http request
         //return http response, executed
-        httpRequest = (MyHttpRawRequest)request;
+        httpRequest = (HttpRawRequestImpl)request;
         String returnMessage = "";
 
-        AsyncTask<MyHttpRawRequest, Void, String> myTask = new AsyncTask<MyHttpRawRequest, Void, String>() {
+        AsyncTask<HttpRawRequestImpl, Void, String> myTask = new AsyncTask<HttpRawRequestImpl, Void, String>() {
             @Override
-            protected String doInBackground(MyHttpRawRequest... params) {
+            protected String doInBackground(HttpRawRequestImpl... params) {
                 //create socket
                 Socket socket = null;
                 String re = "";
-                MyHttpRawRequest req = params[0];
+                HttpRawRequestImpl req = params[0];
                 try {
                     socket = new Socket(req.getHost(), req.getPort());
                     // create input and output stream/readers
