@@ -13,6 +13,8 @@ public class RestActivity extends AppCompatActivity {
 
     TextView text;
     private final String urlStr = "http://vslab.inf.ethz.ch:8081/sunspots/Spot1/sensors/temperature";
+    RawHttpSensor httpSensor;
+    private Double endTemp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,9 @@ public class RestActivity extends AppCompatActivity {
 
             HttpRawRequestImpl myRequest = new HttpRawRequestImpl(host, port, path);
             String returnMessage = myClient.execute(myRequest);
-            text.setText(returnMessage);
+            httpSensor = new RawHttpSensor();
+            endTemp = httpSensor.parseResponse(returnMessage);
+            text.setText("The temperature is: " + endTemp + " °C");
         }
     }
 
