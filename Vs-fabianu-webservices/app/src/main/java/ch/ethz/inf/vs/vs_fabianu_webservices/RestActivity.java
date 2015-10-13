@@ -8,44 +8,25 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
-public class RestActivity extends AppCompatActivity implements SensorListener, HttpRawRequest {
+import java.net.Socket;
+
+public class RestActivity extends AppCompatActivity {
 
 
-    String urlStr = "http://vslab.inf.ethz.ch:8081/sunspots/Spot1/sensors/temperature"; // some URL
-    try{
-        URI uri = new URI(urlStr);
-    }
-    catch(java.net.URISyntaxException){
-        
-    }
-
-    String host = uri.getHost( );
-    String path = uri.getRawPath( );
-
-    public String generateRequest(){
-        String temp = "GET " + path + " HTTP/1.1\r\n" +
-                "Host: " + host + "\r\n" +
-                "Connection: close\r\n\r\n";
-
-        return temp;
-    }
-
-    @Override
-    public int getPort() {
-        return 8081;
-    }
-
-    public String getHost(){
-        return host;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest);
-        }
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,15 +48,5 @@ public class RestActivity extends AppCompatActivity implements SensorListener, H
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onSensorChanged(int sensor, float[] values) {
-
-    }
-
-    @Override
-    public void onAccuracyChanged(int sensor, int accuracy) {
-
     }
 }
