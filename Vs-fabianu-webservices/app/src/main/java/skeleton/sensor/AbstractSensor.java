@@ -5,7 +5,7 @@ import java.util.List;
 
 import android.os.AsyncTask;
 
-import ch.ethz.inf.vs.a2.http.SimpleHttpClient;
+import skeleton.SimpleHttpClient;
 
 /**
  * Implementation of a sensor representation.

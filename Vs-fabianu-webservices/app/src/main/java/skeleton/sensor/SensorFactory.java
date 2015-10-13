@@ -1,16 +1,10 @@
 package skeleton.sensor;
 
-import ch.ethz.inf.vs.a2.solution.sensor.HtmlSensor;
-import ch.ethz.inf.vs.a2.solution.sensor.JsonSensor;
-import ch.ethz.inf.vs.a2.solution.sensor.RawHttpSensor;
-import ch.ethz.inf.vs.a2.solution.sensor.SoapSensor;
-import ch.ethz.inf.vs.a2.solution.sensor.XmlSensor;
-
-
 public abstract class SensorFactory {
 	public static Sensor getInstance(Type type) {
 		switch (type) {
-		case RAW_HTTP:
+			//TODO
+		/*case RAW_HTTP:
 			// return Sensor implementation using a raw HTTP request
 			return new RawHttpSensor();
 		case HTML:
@@ -24,7 +18,7 @@ public abstract class SensorFactory {
 			return new XmlSensor();
 		case SOAP:
 			// return Sensor implementation using a SOAPObject
-			return new SoapSensor();
+			return new SoapSensor();*/
 		default:
 			return null;
 		}
