@@ -26,56 +26,38 @@ public class RawHttpClient implements SimpleHttpClient {
         //take in an http request
         //return http response, executed
         httpRequest = (HttpRawRequestImpl)request;
-        String returnMessage = "";
 
-        AsyncTask<HttpRawRequestImpl, Void, String> myTask = new AsyncTask<HttpRawRequestImpl, Void, String>() {
-            @Override
-            protected String doInBackground(HttpRawRequestImpl... params) {
-                //create socket
-                Socket socket = null;
-                String re = "";
-                HttpRawRequestImpl req = params[0];
-                try {
-                    socket = new Socket(req.getHost(), req.getPort());
-                    // create input and output stream/readers
-                    if (socket != null) {
-                        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        PrintWriter output = new PrintWriter(socket.getOutputStream());
-                        String messageOut = req.generateRequest();
-
-                        output.print(messageOut);
-                        output.flush();
-
-                        String lastReceived;
-                        do {
-                            try {
-                                lastReceived = input.readLine();
-                                re += lastReceived;
-                            } catch (IOException e) {
-                                re = e.getLocalizedMessage();
-                                lastReceived = null;
-                            }
-                        } while (lastReceived != null);
-
-                        socket.close();
-                        return re;
-                    }
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        }.execute(httpRequest);
-
+        Socket socket = null;
+        String re = "";
         try {
-            returnMessage = myTask.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            socket = new Socket(httpRequest.getHost(), httpRequest.getPort());
+            // create input and output stream/readers
+            if (socket != null) {
+                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter output = new PrintWriter(socket.getOutputStream());
+                String messageOut = httpRequest.generateRequest();
+
+                output.print(messageOut);
+                output.flush();
+
+                String lastReceived;
+                do {
+                    try {
+                        lastReceived = input.readLine();
+                        re += lastReceived;
+                    } catch (IOException e) {
+                        re = e.getLocalizedMessage();
+                        lastReceived = null;
+                    }
+                } while (lastReceived != null);
+
+                socket.close();
+            }
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
 
-        return returnMessage;
+        return re;
     }
 }

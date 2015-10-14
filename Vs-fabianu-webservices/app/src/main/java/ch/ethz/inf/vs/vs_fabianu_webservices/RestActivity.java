@@ -9,7 +9,9 @@ import android.widget.TextView;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class RestActivity extends AppCompatActivity {
+import skeleton.sensor.SensorListener;
+
+public class RestActivity extends AppCompatActivity implements SensorListener{
 
     TextView text;
     private final String urlStr = "http://vslab.inf.ethz.ch:8081/sunspots/Spot1/sensors/temperature";
@@ -23,7 +25,10 @@ public class RestActivity extends AppCompatActivity {
         text = (TextView)findViewById(R.id.textView);
 
         //create HTTP Client and request, and execute
-        URI uri = null;
+        RawHttpSensor rawSens = new RawHttpSensor();
+        rawSens.registerListener(this);
+        rawSens.getTemperature();
+        /*URI uri = null;
         try {
             uri = new URI(urlStr);
         } catch (URISyntaxException e) {
@@ -42,7 +47,7 @@ public class RestActivity extends AppCompatActivity {
             httpSensor = new RawHttpSensor();
             endTemp = httpSensor.parseResponse(returnMessage);
             text.setText("The temperature is: " + endTemp + " °C");
-        }
+        }*/
     }
 
 
@@ -66,5 +71,16 @@ public class RestActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onReceiveDouble(double value) {
+        String print = String.format(getString(R.string.temperature_text), value);
+        text.setText(print);
+    }
+
+    @Override
+    public void onReceiveString(String message) {
+
     }
 }

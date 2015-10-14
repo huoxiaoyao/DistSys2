@@ -7,5 +7,6 @@
     <string name="task2">Task 2</string>
     <string name="task3">Task 3</string>
     <string name="title_activity_rest">RestActivity</string>
+    <string name="temperature_text">The temperature is: %1$.2f°C</string>
 
 </resources>
