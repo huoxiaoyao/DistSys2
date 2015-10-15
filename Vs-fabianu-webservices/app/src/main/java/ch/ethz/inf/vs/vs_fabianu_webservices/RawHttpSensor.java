@@ -17,8 +17,6 @@ public class RawHttpSensor extends AbstractSensor {
 
     private final String urlStr = "http://vslab.inf.ethz.ch:8081/sunspots/Spot1/sensors/temperature";
 
-    double temp = 0;
-
     public RawHttpSensor() {
         super();
     }
@@ -31,19 +29,8 @@ public class RawHttpSensor extends AbstractSensor {
     @Override
     public double parseResponse(String response) {
 
-        final String regExp = "<span class=\"getterValue\">(\\S+)</span>";
-
-        if (response != null) {
-            Pattern pattern = Pattern.compile(regExp);
-            Matcher matcher = pattern.matcher(response);
-            if (matcher.find()) {
-
-                String findings = matcher.group(1);
-                temp = Double.parseDouble(findings);
-            }
-
-        }
-        return temp;
+        HtmlParser responseParser = new HtmlParser();
+        return responseParser.parseResponse(response);
     }
 
     @Override

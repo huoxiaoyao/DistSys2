@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import skeleton.SimpleHttpClient;
 
@@ -41,6 +42,7 @@ public abstract class AbstractSensor implements Sensor, ResponseParser {
         listeners.add(listener);
     }
 
+
     @Override
     public void unregisterListener(SensorListener listener) {
         listeners.remove(listener);
@@ -61,7 +63,9 @@ public abstract class AbstractSensor implements Sensor, ResponseParser {
 
         @Override
         protected String doInBackground(Object... params) {
+            Log.d("enter", "------entered");
             return httpClient.execute(params[0]);
+
         }
 
         @Override
