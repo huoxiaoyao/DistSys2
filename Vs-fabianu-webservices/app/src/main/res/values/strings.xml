@@ -8,6 +8,9 @@
     <string name="task3">Task 3</string>
     <string name="title_activity_rest">RestActivity</string>
     <string name="temperature_text">The temperature is: %1$.2f°C</string>
+    <string name="rawButton_text">Send Raw Request</string>
+    <string name="htmlButton_text">Send HTML Request</string>
+    <string name="jsonButton_text">Send JSON Request</string>
 
 
 </resources>

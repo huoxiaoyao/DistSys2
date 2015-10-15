@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import skeleton.sensor.Sensor;
 import skeleton.sensor.SensorFactory;
 import skeleton.sensor.SensorListener;
 
@@ -17,7 +18,10 @@ public class RestActivity extends AppCompatActivity implements SensorListener{
 
     TextView text;
     //private final String urlStr = "http://vslab.inf.ethz.ch:8081/sunspots/Spot1/sensors/temperature";
-    RawHttpSensor httpSensor;
+    RawHttpSensor rawSens;
+    HtmlSensor htmlSens;
+    JsonSensor jSens;
+
     private Double endTemp;
 
     @Override
@@ -26,23 +30,9 @@ public class RestActivity extends AppCompatActivity implements SensorListener{
         setContentView(R.layout.activity_rest);
         text = (TextView) findViewById(R.id.textView);
 
-        //create HTTP Client and request, and execute
-        RawHttpSensor rawSens = new RawHttpSensor();
-        rawSens.registerListener(this);
-        rawSens.getTemperature();
-
-        //funktioniert nicht
-        //An error occured while executing doInBackground()
-        HtmlSensor htmlSens = new HtmlSensor();
-        htmlSens.registerListener(this);
-        htmlSens.getTemperature();
-
-        //funktioniert nicht
-        //An error occured while executing doInBackground()
-        JsonSensor jsonSens = new JsonSensor();
-        jsonSens.registerListener(this);
-        jsonSens.getTemperature();
-
+        rawSens = (RawHttpSensor)SensorFactory.getInstance(SensorFactory.Type.RAW_HTTP);
+        htmlSens = (HtmlSensor)SensorFactory.getInstance(SensorFactory.Type.HTML);
+        jSens = (JsonSensor)SensorFactory.getInstance(SensorFactory.Type.JSON);
     }
 
 
@@ -72,10 +62,34 @@ public class RestActivity extends AppCompatActivity implements SensorListener{
     public void onReceiveDouble(double value) {
         String print = String.format(getString(R.string.temperature_text), value);
         text.setText(print);
+        unregisterAll();
     }
 
     @Override
     public void onReceiveString(String message) {
 
+    }
+
+    public void onClickRaw(View view){
+        rawSens.registerListener(this);
+        rawSens.getTemperature();
+    }
+
+    public void onClickHtml(View view){
+        htmlSens.registerListener(this);
+        htmlSens.getTemperature();
+    }
+
+    public void onClickJson(View view){
+        //funktioniert nicht -> gibt imme 41°C aus
+        //An error occured while executing doInBackground()
+        jSens.registerListener(this);
+        jSens.getTemperature();
+    }
+
+    private void unregisterAll() {
+        rawSens.unregisterListener(this);
+        htmlSens.unregisterListener(this);
+        jSens.unregisterListener(this);
     }
 }

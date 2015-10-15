@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">VS_fabianu_SensorServer</string>
+    <string name="ip_label">IP</string>
+    <string name="port_label">Port</string>
+</resources>

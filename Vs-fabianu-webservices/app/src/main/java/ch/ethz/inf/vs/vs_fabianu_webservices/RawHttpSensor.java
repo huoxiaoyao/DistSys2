@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import skeleton.RemoteServerConfiguration;
+import skeleton.SimpleHttpClientFactory;
 import skeleton.sensor.AbstractSensor;
 
 /**
@@ -23,7 +24,7 @@ public class RawHttpSensor extends AbstractSensor {
 
     @Override
     protected void setHttpClient() {
-        httpClient = new RawHttpClient();
+        httpClient = SimpleHttpClientFactory.getInstance(SimpleHttpClientFactory.Type.RAW);
     }
 
     @Override

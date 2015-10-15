@@ -6,7 +6,7 @@ import skeleton.RemoteServerConfiguration;
 import skeleton.SimpleHttpClientFactory;
 import skeleton.sensor.AbstractSensor;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
+//import org.apache.http.client.utils.URIBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;

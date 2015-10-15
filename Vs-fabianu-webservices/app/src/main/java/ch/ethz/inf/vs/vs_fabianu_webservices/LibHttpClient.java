@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
 /**
  * Created by Caroline on 10/14/15.
  */
-public class ApacheSimpleHttpClient implements SimpleHttpClient{
+public class LibHttpClient implements SimpleHttpClient{
 
     HttpGet httpGet;
 
