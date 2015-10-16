@@ -26,6 +26,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.ethz.inf.vs.vs_fabianu_webservices.MainActivity" />
         </activity>
+        <activity
+            android:name=".Server.ServerActivity"
+            android:label="@string/title_activity_server"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <service android:name=".Server.ServerService" />
     </application>
 
 </manifest>

@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/accel_act"
         android:text="@string/task2"
-        android:onClick="onClick"
+        android:onClick="onClick2"
         android:layout_below="@+id/temp_act"
         android:layout_alignParentStart="true"
         />
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/light_act"
         android:text="@string/task3"
-        android:onClick="onClick"
+        android:onClick="onClick3"
         android:layout_below="@+id/accel_act"
         android:layout_alignParentStart="true" />
 

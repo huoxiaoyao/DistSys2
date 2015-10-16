@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import ch.ethz.inf.vs.vs_fabianu_webservices.Server.ServerActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -42,4 +44,12 @@ public class MainActivity extends AppCompatActivity {
         this.startActivity(myIntent);
     }
 
+    public void onClick2(View v) {
+
+    }
+
+    public void onClick3(View v) {
+        Intent myIntent = new Intent(this, ServerActivity.class);
+        startActivity(myIntent);
+    }
 }

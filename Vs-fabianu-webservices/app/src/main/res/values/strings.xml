@@ -11,6 +11,10 @@
     <string name="rawButton_text">Send Raw Request</string>
     <string name="htmlButton_text">Send HTML Request</string>
     <string name="jsonButton_text">Send JSON Request</string>
-
+    <string name="ip_label">IP</string>
+    <string name="port_label">Port</string>
+    <string name="startServer_text">Start Server</string>
+    <string name="stopServer_text">Stop Server</string>
+    <string name="title_activity_server">Server</string>
 
 </resources>
