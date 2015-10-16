@@ -1,6 +1,8 @@
 package ch.ethz.inf.vs.vs_fabianu_webservices.Server;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -22,6 +24,8 @@ import ch.ethz.inf.vs.vs_fabianu_webservices.R;
 
 public class ServerActivity extends AppCompatActivity {
 
+    SharedPreferences sPref;
+
     private InetAddress address;
     private final int port = 7077;
 
@@ -35,16 +39,21 @@ public class ServerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_server);
 
         //init
+        sPref = PreferenceManager.getDefaultSharedPreferences(this);
         ipView = (TextView)findViewById(R.id.IPField);
         portView = (TextView)findViewById(R.id.portField);
         startStop = (ToggleButton)findViewById(R.id.start_stop);
+        //initialise with the correct value first, so that a started server will definitely be killed again
+        startStop.setChecked(sPref.getBoolean("SERVER_STARTED", false));
         startStop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
+                    sPref.edit().putBoolean("SERVER_STARTED", true).commit();
                     startServer();
                 } else {
                     stopServer();
+                    sPref.edit().putBoolean("SERVER_STARTED", false).commit();
                 }
             }
         });
@@ -94,4 +103,5 @@ public class ServerActivity extends AppCompatActivity {
         Intent serverIntent = new Intent(this, ServerService.class);
         stopService(serverIntent);
     }
+
 }
