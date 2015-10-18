@@ -1,7 +1,10 @@
 package ch.ethz.inf.vs.vs_fabianu_webservices.Server;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -26,9 +29,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import ch.HtmlChanger;
+import ch.HtmlGenerator;
 
 /**
  * Created by Fabian_admin on 15.10.2015.
@@ -46,7 +55,7 @@ public class ServerService extends Service {
         //all client connections will be handled in this thread pool
         clientPool = Executors.newFixedThreadPool(5);
 
-        serverTask = new ServerTask();
+        serverTask = new ServerTask(this);
         serverThread = new Thread(serverTask);
         serverThread.start();
 
@@ -56,6 +65,12 @@ public class ServerService extends Service {
     private class ServerTask implements Runnable {
         public ServerSocket serverSocket = null;
         private volatile boolean running = true;
+        private Context context;
+
+        public ServerTask(Context context) {
+            this.context = context;
+        }
+
         @Override
         public void run() {
             try {
@@ -63,7 +78,7 @@ public class ServerService extends Service {
                 while (running) {
                     //can be interrupted by calling serverSocket.close()
                     Socket clientSocket = serverSocket.accept();
-                    clientPool.submit(new ClientTask(clientSocket));;
+                    clientPool.submit(new ClientTask(clientSocket, context));;
                 }
             } catch (Exception e) {
                 Log.i("server", "error while processing client request");
@@ -84,11 +99,13 @@ public class ServerService extends Service {
 
     private class ClientTask implements Runnable {
         private Socket clientSocket;
+        private Context context;
         private BasicHttpProcessor httpProc;
         private HttpService httpService;
         private HttpRequestHandlerRegistry registry;
 
-        public ClientTask(Socket clientSocket) {
+        public ClientTask(Socket clientSocket, Context context) {
+            this.context = context;
             this.clientSocket = clientSocket;
             httpProc = new BasicHttpProcessor();
             httpProc.addInterceptor(new ResponseDate());
@@ -101,7 +118,42 @@ public class ServerService extends Service {
 
             registry = new HttpRequestHandlerRegistry();
 
-            //registry.register(HOME_PATTERN, new HomeCommandHandler(context));
+            //register all the different handlers for the different sites
+            HtmlGenerator generator = new HtmlGenerator();
+            generator.registerSite("/", new ChangeNothing("home.html", context));
+            generator.registerSite("/sensors", new HtmlChanger("list.html", context) {
+                @Override
+                public String generateChangedContent() {
+                    return String.format(htmlContent, "Sensors", "Sensors",
+                            "/sensors/accelerometer", "Accelerometer",
+                            "/sensors/orientation", "Orientation Sensor");
+                }
+            });
+            generator.registerSite("/actuators", new HtmlChanger("list.html", context) {
+                @Override
+                public String generateChangedContent() {
+                    return String.format(htmlContent, "Actuators", "Actuators",
+                            "vibrator", "Vibrator",
+                            "ring", "Ring Tone");
+                }
+            });
+
+            SensorManager sManager = (SensorManager)context.getSystemService(context.SENSOR_SERVICE);
+            android.hardware.Sensor accel = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            generator.registerSite("/sensors/accelerometer", new SensorHtmlChanger(accel, "values.html", context));
+
+            android.hardware.Sensor ori = sManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+            generator.registerSite("/sensors/orientation",new SensorHtmlChanger(ori, "values.html", context));
+
+            /*generator.registerSite("/actuators/vibrator", "vibrator.html", null);
+            generator.registerSite("/actuators/ring", "ring.html", null);*/
+
+            List<String> patterns = generator.urlList();
+
+            AllRequestHandler rHandler = new AllRequestHandler(generator);
+            for(String s : patterns) {
+                registry.register(s, rHandler);
+            }
 
             httpService.setHandlerResolver(registry);
         }
