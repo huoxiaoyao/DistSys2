@@ -103,6 +103,7 @@ public class ServerService extends Service {
         private BasicHttpProcessor httpProc;
         private HttpService httpService;
         private HttpRequestHandlerRegistry registry;
+        private AllRequestHandler rHandler = null;
 
         public ClientTask(Socket clientSocket, Context context) {
             this.context = context;
@@ -133,8 +134,8 @@ public class ServerService extends Service {
                 @Override
                 public String generateChangedContent() {
                     return String.format(htmlContent, "Actuators", "Actuators",
-                            "vibrator", "Vibrator",
-                            "ring", "Ring Tone");
+                            "/actuators/vibrator", "Vibrator",
+                            "/actuators/ring", "Ring Tone");
                 }
             });
 
@@ -145,12 +146,16 @@ public class ServerService extends Service {
             android.hardware.Sensor ori = sManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
             generator.registerSite("/sensors/orientation",new SensorHtmlChanger(ori, "values.html", context));
 
-            /*generator.registerSite("/actuators/vibrator", "vibrator.html", null);
-            generator.registerSite("/actuators/ring", "ring.html", null);*/
+            generator.registerSite("/actuators/vibrator", new SingleValueActuatorChanger("Vibrator", "Send Vibration time in s",
+                    "/actuators/vibrator", "svActuator.html", context));
+
+            generator.registerSite("/actuators/ring", new SingleValueActuatorChanger("Play Ringtone", "Volume (between 1 and 100)",
+                    "/actuators/ring", "svActuator.html", context));
+
 
             List<String> patterns = generator.urlList();
 
-            AllRequestHandler rHandler = new AllRequestHandler(generator);
+            rHandler = new AllRequestHandler(generator, context);
             for(String s : patterns) {
                 registry.register(s, rHandler);
             }
@@ -172,24 +177,13 @@ public class ServerService extends Service {
                 Log.i("socket", "problem reading request");
             }
 
-            /*try {
-                //get request
-                String request = readRequest(clientSocket);
-                //parse request
-                Log.i("message", request);
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-
-
             try {
                 clientSocket.close();
             } catch (IOException e) {
                 Log.i("socket", "problem closing a client socket");
             }
         }
+
     }
 
     private String readRequest(Socket s) throws IOException {

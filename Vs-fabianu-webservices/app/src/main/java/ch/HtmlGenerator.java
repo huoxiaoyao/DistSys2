@@ -16,8 +16,9 @@ public class HtmlGenerator {
 
     public String generate(String url) {
         //for a big project, create datastructures like hashmaps for url -> websites and changes
-        if(urlToHtmlChanger.containsKey(url)) {
-            HtmlChanger changer = urlToHtmlChanger.get(url);
+        String rUrl = dispatchLastSlash(url);
+        if(urlToHtmlChanger.containsKey(rUrl)) {
+            HtmlChanger changer = urlToHtmlChanger.get(rUrl);
             return changer.generateChangedContent();
         } else {
             return null;
@@ -25,10 +26,19 @@ public class HtmlGenerator {
     }
 
     public void registerSite(String url, HtmlChanger changer) {
-        urlToHtmlChanger.put(url, changer);
+        urlToHtmlChanger.put(dispatchLastSlash(url), changer);
     }
 
     public List<String> urlList() {
         return new LinkedList<>(urlToHtmlChanger.keySet());
+    }
+
+    private String dispatchLastSlash(String in) {
+        String s = in;
+        if(s.length() > 1 && s.charAt(in.length() - 1) == '/') {
+            //register without last /
+            s = s.substring(0, s.length() - 2);
+        }
+        return s;
     }
 }
