@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick2(View v) {
-
+        Intent myIntent = new Intent(this, SoapActivity.class);
+        startActivity(myIntent);
     }
 
     public void onClick3(View v) {

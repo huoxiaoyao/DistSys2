@@ -5,8 +5,6 @@ import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.util.Log;
 
@@ -23,13 +21,9 @@ import org.apache.http.protocol.HttpRequestHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Timer;
-
-import ch.HtmlGenerator;
 
 /**
  * Created by Fabian_admin on 18.10.2015.

@@ -3,6 +3,7 @@ package skeleton.sensor;
 import ch.ethz.inf.vs.vs_fabianu_webservices.HtmlSensor;
 import ch.ethz.inf.vs.vs_fabianu_webservices.JsonSensor;
 import ch.ethz.inf.vs.vs_fabianu_webservices.RawHttpSensor;
+import ch.ethz.inf.vs.vs_fabianu_webservices.XmlSensor;
 
 public abstract class SensorFactory {
 	public static Sensor getInstance(Type type) {
@@ -17,10 +18,10 @@ public abstract class SensorFactory {
 			// return Sensor implementation using application/json representation
 			return new JsonSensor();
 		//TODO
-		/*case XML:
+		case XML:
 			// return Sensor implementation using application/xml representation
 			return new XmlSensor();
-		case SOAP:
+		/*case SOAP:
 			// return Sensor implementation using a SOAPObject
 			return new SoapSensor();*/
 		default:

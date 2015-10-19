@@ -32,6 +32,10 @@
             android:label="@string/title_activity_server"
             android:parentActivityName=".MainActivity" >
         </activity>
+        <activity android:name=".SoapActivity"
+            android:label="@string/title_activity_soap"
+            android:parentActivityName=".MainActivity" >
+        </activity>
         <service android:name=".Server.ServerService" />
     </application>
 

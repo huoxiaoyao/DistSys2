@@ -1,4 +1,4 @@
-package ch;
+package ch.ethz.inf.vs.vs_fabianu_webservices.Server;
 
 import android.content.Context;
 import android.content.res.AssetManager;

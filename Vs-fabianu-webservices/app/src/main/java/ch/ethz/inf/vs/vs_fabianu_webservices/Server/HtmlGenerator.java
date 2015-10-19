@@ -1,8 +1,10 @@
-package ch;
+package ch.ethz.inf.vs.vs_fabianu_webservices.Server;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import ch.ethz.inf.vs.vs_fabianu_webservices.Server.HtmlChanger;
 
 /**
  * Created by Fabian_admin on 18.10.2015.

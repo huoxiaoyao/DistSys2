@@ -6,8 +6,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import ch.HtmlChanger;
-
 /**
  * Created by Fabian_admin on 19.10.2015.
  */
